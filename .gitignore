@@ -1,0 +1,4 @@
+var/
+bower_components/
+node_modules/
+*.swp

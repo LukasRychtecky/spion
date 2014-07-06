@@ -1,6 +1,7 @@
 goog.require 'goog.events'
 goog.require 'goog.events.EventType'
 goog.require 'goog.date.DateTime'
+goog.require 'goog.i18n.DateTimeFormat'
 
 class spn.Collector
 
@@ -12,6 +13,7 @@ class spn.Collector
   ###
   constructor: (@browserIdGen, @win, @el, @eshop) ->
     @reset()
+    @formatter = new goog.i18n.DateTimeFormat "yyyy'-'MM'-'dd HH:MM:SS"
     goog.events.listen @el, [goog.events.EventType.CLICK, goog.events.EventType.KEYUP], @handleEvent
 
   reset: ->
@@ -43,7 +45,7 @@ class spn.Collector
       'element_id': e.target.id
       'screen_height': @win.screen.height
       'screen_width': @win.screen.width
-      'timestamp': new goog.date.DateTime().toIsoString()
+      'timestamp': @formatter.format new goog.date.DateTime()
       'user_agent': @win.navigator.userAgent
       'key_code': e.keyCode
       'url': @win.location.href

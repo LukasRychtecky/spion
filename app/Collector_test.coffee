@@ -57,3 +57,17 @@ suite 'spn.Collector', ->
     assert.isTrue collector.isEmpty()
     fireKeyup input
     assert.isFalse collector.isEmpty()
+
+  test 'Timestamp should be in a proper format', ->
+    input = mockInput 'text'
+    collector = new spn.Collector browserIdGen, win, input, ''
+
+    fireKeyup input
+    timestamp = collector.getData()[0].timestamp
+
+    # format: 2014-07-06 09:07:06
+    assert.equal timestamp[4], '-'
+    assert.equal timestamp[7], '-'
+    assert.equal timestamp[10], ' '
+    assert.equal timestamp[13], ':'
+    assert.equal timestamp[16], ':'

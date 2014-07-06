@@ -8,5 +8,18 @@ module.exports = (grunt) ->
     src_dir: 'app'
     closure_libs: []
     deps_prefix: '../../'
+    overridden_config:
+      bump:
+        options:
+          bump: true
+          files: ['package.json', 'bower.json']
+          commitFiles: ['-a']
+          commit: true
+          tagName: '%VERSION%'
+          tagMessage: 'Release %VERSION%'
+          commitMessage: '%VERSION%'
+          pushTo: 'origin'
 
   suppe grunt, opts
+
+  grunt.loadNpmTasks 'grunt-bump'

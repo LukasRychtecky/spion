@@ -13,7 +13,7 @@ class spn.Collector
   ###
   constructor: (@browserIdGen, @win, @el, @eshop) ->
     @reset()
-    @formatter = new goog.i18n.DateTimeFormat "yyyy'-'MM'-'dd HH:MM:SS"
+    @formatter = new goog.i18n.DateTimeFormat "yyyy'-'MM'-'dd HH:MM:ss"
     goog.events.listen @el, [goog.events.EventType.CLICK, goog.events.EventType.KEYUP], @handleEvent
 
   reset: ->

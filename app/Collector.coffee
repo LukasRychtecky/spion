@@ -8,13 +8,17 @@ class spn.Collector
   ###*
     @param {spn.BrowserIdGen} browserIdGen
     @param {Window} win
-    @param {Element} el
     @param {string} eshop
+    @param {Array.<string>} selectors
   ###
-  constructor: (@browserIdGen, @win, @el, @eshop) ->
+  constructor: (@browserIdGen, @win, @eshop, @selectors) ->
     @reset()
     @formatter = new goog.i18n.DateTimeFormat "yyyy'-'MM'-'dd HH:MM:ss"
-    goog.events.listen @el, [goog.events.EventType.CLICK, goog.events.EventType.KEYUP], @handleEvent
+
+  collects: ->
+    for el in @win.document.querySelectorAll(@selectors.join(', '))
+      goog.events.listen el, goog.events.EventType.KEYUP, @handleKey
+    goog.events.listen @win, goog.events.EventType.LOAD, @handleLoad
 
   reset: ->
     @data = []
@@ -35,7 +39,7 @@ class spn.Collector
     @protected
     @param {goog.events.Event} e
   ###
-  handleEvent: (e) =>
+  handleKey: (e) =>
     return if not e.target? or e.target.type is 'password'
 
     event =
@@ -43,13 +47,24 @@ class spn.Collector
       'element_name': e.target.tagName
       'class_name': e.target.className
       'element_id': e.target.id
+      'timestamp': @formatter.format new goog.date.DateTime()
+      'key_code': e.keyCode
+      'cookie_id': @browserIdGen.get()
+
+    @data.push event
+
+  ###*
+    @protected
+    @param {goog.events.Event} e
+  ###
+  handleLoad: (e) =>
+    event =
+      'eshop': @eshop
       'screen_height': @win.screen.height
       'screen_width': @win.screen.width
       'timestamp': @formatter.format new goog.date.DateTime()
       'user_agent': @win.navigator.userAgent
-      'key_code': e.keyCode
       'url': @win.location.href
       'cookie_id': @browserIdGen.get()
-      'event_type': if e.type is 'keyup' then 2 else 1
 
     @data.push event

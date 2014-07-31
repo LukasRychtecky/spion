@@ -10,6 +10,7 @@ suite 'spn.Emitter', ->
     getData: ->
       data
     reset: ->
+    collects: ->
 
   runEmitter = ->
     emitter = new spn.Emitter jsonp, collector, 50

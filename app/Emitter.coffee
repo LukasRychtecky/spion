@@ -12,6 +12,7 @@ class spn.Emitter
     @timer = new goog.Timer @interval
 
   emit: ->
+    @collector.collects()
     @timer.start()
     goog.events.listen @timer, goog.Timer.TICK, @send
 
